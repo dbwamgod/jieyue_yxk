@@ -6,27 +6,28 @@ const path = require('path')
 
 module.exports = {
   dev: {
-
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/api': {
+        target: 'http://192.168.34.109:10105', //源地址  开发
+        changeOrigin: true, //改变源
+        secure: false, //如果是https接口，需要配置这个参数
+        pathRewrite: {
+          '^/api': 'http://192.168.34.109:10105' //路径重写
+        }
+      }
+    },
 
     // Various Dev Server settings
-    host: '0.0.0.0', // can be overwritten by process.env.HOST
+    host: 'localhost', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
-    autoOpenBrowser: false,
+    autoOpenBrowser: true,
     errorOverlay: true,
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-    // Use Eslint Loader?
-    // If true, your code will be linted during bundling and
-    // linting errors and warnings will be shown in the console.
-    useEslint: true,
-    // If true, eslint errors and warnings will also be shown in the error overlay
-    // in the browser.
-    showEslintErrorsInOverlay: false,
 
     /**
      * Source Maps
@@ -45,10 +46,10 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, '../yxk/index.html'),
+    index: path.resolve(__dirname, '../fraudFriend/index.html'),
 
     // Paths
-    assetsRoot: path.resolve(__dirname, '../yxk'),
+    assetsRoot: path.resolve(__dirname, '../fraudFriend'),
     assetsSubDirectory: 'static',
     assetsPublicPath: './',
 
@@ -56,7 +57,7 @@ module.exports = {
      * Source Maps
      */
 
-    productionSourceMap: true,
+    productionSourceMap: false,
     // https://webpack.js.org/configuration/devtool/#production
     devtool: '#source-map',
 

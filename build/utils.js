@@ -28,16 +28,10 @@ exports.cssLoaders = function (options) {
       sourceMap: options.sourceMap
     }
   }
-  const px2remLoader = {
-    loader: 'px2rem-loader',
-    options: {
-      remUnit: 37.5//设计稿宽度/10
-    }
-  };
 
   // generate loader string to be used with extract text plugin
   function generateLoaders (loader, loaderOptions) {
-    const loaders = options.usePostCSS ? [cssLoader, postcssLoader, px2remLoader] : [cssLoader, px2remLoader]
+    const loaders = options.usePostCSS ? [cssLoader, postcssLoader] : [cssLoader]
 
     if (loader) {
       loaders.push({
@@ -54,7 +48,7 @@ exports.cssLoaders = function (options) {
       return ExtractTextPlugin.extract({
         use: loaders,
         fallback: 'vue-style-loader',
-        publicPath:'../../'
+        publicPath: '../../',
       })
     } else {
       return ['vue-style-loader'].concat(loaders)
@@ -75,20 +69,17 @@ exports.cssLoaders = function (options) {
 
 // Generate loaders for standalone style files (outside of .vue)
 exports.styleLoaders = function (options) {
-  const output = []
-  const loaders = exports.cssLoaders(options)
-
-  for (const extension in loaders) {
-    const loader = loaders[extension]
+  var output = []
+  var loaders = exports.cssLoaders(options)
+  for (var extension in loaders) {
+    var loader = loaders[extension]
     output.push({
       test: new RegExp('\\.' + extension + '$'),
       use: loader
     })
   }
-
   return output
 }
-
 exports.createNotifierCallback = () => {
   const notifier = require('node-notifier')
 
@@ -106,3 +97,5 @@ exports.createNotifierCallback = () => {
     })
   }
 }
+
+

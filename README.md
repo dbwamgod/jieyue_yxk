@@ -1,10 +1,6 @@
+# saas-bi
 
-## 注意事项
-
-+ 依赖库采用固定版本方式（^一律改为~）
-+ 代码风格，命名风格须遵循 ``` 捷越前端部开发规范 ```
-+ 任何特性的开发都应添加对应CHANGELOG
-+ 所有针对master分支的合并操作需遵循 ``` 捷越前端部GIT操作规范 ```
+> A Vue.js project
 
 ## Build Setup
 
@@ -24,3 +20,4 @@ npm run build --report
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
+## 每次提交的时候 在这里写下 谁修改了什么 

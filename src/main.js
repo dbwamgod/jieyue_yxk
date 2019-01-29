@@ -1,30 +1,51 @@
-/*
- * @Author: changge
- * @Date: 2018-06-01 14:50:54
- * @Last Modified by:   changge
- * @Last Modified time: 2018-06-05 10:50:54
- */
-import Vue from 'vue';
-import {
-  AlertPlugin,
-  ToastPlugin,
-  LoadingPlugin,
-} from 'vux';
-import App from './App';
-import router from './router';
-import oDC from './dc';
-import Echarts from 'echarts';
-import MintUI from 'mint-ui';
-import 'mint-ui/lib/style.css';
-import 'lib-flexible/flexible';
-Vue.use(MintUI);
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import 'es6-promise/auto'
+import Vue from 'vue'
+import App from './App'
+import $$ from 'jquery'
+import { quillEditor } from "vue-quill-editor";
+import store from './store'
+import router from './router'
+import ElementUI from 'element-ui'
+import { moveHoverAmplification, anchorFunc } from '@/common/directive'
+import { Dialog } from '@/common/dialog/dialogPrompt.js'
+
+
+import 'element-ui/lib/theme-chalk/index.css'
+import Axios from '@/utils/diyaxios'
+import common from '@/common/common.js'
+import { stringFilter, removeHtml, strSub } from '@/common/filter.js'
+
+/***富文本****/
+import  VueQuillEditor from 'vue-quill-editor'
+// require styles 引入样式
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
+Vue.use(VueQuillEditor)
+Vue.prototype.HOST = '/api'
+
+Vue.prototype.$http = Axios;
+Vue.prototype.$common = common;
+
+import echarts from "echarts";
 
 Vue.config.productionTip = false;
+Vue.directive('moveHoverAmplification',moveHoverAmplification)
+Vue.directive('anchor', anchorFunc)
 
-Vue.prototype.$Echarts = Echarts;
+//Vue.use(router);
+Vue.use(ElementUI);
+Vue.use(Dialog);
 
 
-Vue.prototype.$GetQueryString = function UrlSearch() {
+Vue.use(echarts);
+Vue.filter("stringFilter", stringFilter);
+Vue.filter("removeHtml", removeHtml);
+Vue.filter("strSub", strSub);
+Vue.prototype.$GetQueryString = function () {
   let name, value;
   let str = location.href;
   let num = str.indexOf("?")
@@ -40,20 +61,29 @@ Vue.prototype.$GetQueryString = function UrlSearch() {
     }
   }
 };
+let routeList = [];
 router.beforeEach((to, from, next) => {
-  if (from.path !== to.path) {
-    document.title = to.meta.title || '捷思致诚  执信以越';
+  /* 路由发生变化修改页面title */
+  if (to.meta.title) {
+    document.title = to.meta.title;
   }
-  next();
+  console.log(to.name)
+  if (to.name==''||to.name == null){
+    return next({
+      name:'content'
+    })
+  }
+  next()
 });
 
-Vue.use(oDC);
-Vue.use(AlertPlugin);
-Vue.use(ToastPlugin);
-Vue.use(LoadingPlugin);
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  render: h => h(App),
-});
+  store,
+  components: { App },
+  template: '<App/>'
+})
+
+
+
